@@ -11,7 +11,7 @@ class WallServiceTest {
 
     @Test
     fun add() {
-        val initialPost = Post(text = "Stories", likes = Likes(100),views = Views(32))
+        val initialPost = Post(text = "Stories", likes = Likes(100),views = Views(32), id = 4)
         val addedPost = WallService.add(initialPost)
 
         assertNotEquals(0, addedPost.id)
@@ -19,7 +19,7 @@ class WallServiceTest {
 
     @Test
     fun updateExisting_returnsTrue() {
-    val addedPost = WallService.add(Post(ownerId = 10, text = "Изначальный пост",likes = Likes(30),views = Views(5)))
+    val addedPost = WallService.add(Post(ownerId = 10, text = "Изначальный пост",likes = Likes(30),views = Views(5), id = 10))
 
         val postToUpdate = Post(
             id = addedPost.id,
@@ -37,7 +37,7 @@ class WallServiceTest {
     @Test
     fun updateNotExisting_returnsFalse() {
         val service = WallService
-        service.add(Post(ownerId = 10, text = "Добавленный пост",likes = Likes(30),views = Views(5)))
+        service.add(Post(ownerId = 10, text = "Добавленный пост",likes = Likes(30),views = Views(5), id = 3))
 
         val update = Post(
             id = 5,
@@ -50,6 +50,22 @@ class WallServiceTest {
         val result = service.update(update)
 
         assertFalse(result)
+    }
+    //Добавлены тесты на исключение и проверку добавленного комментария по id
+    @Test(expected = PostNotFoundException:: class)
+    fun shouldThrow() {
+        val comment = Comment(57,111,"Новый комментарий",222,12)
+        val postId = 44
+        val newPost = WallService.createComment(44, comment)
+
+        println(PostNotFoundException("Нет поста с таким $postId"))
+    }
+
+    @Test
+    fun addingComment() {
+        val addedPost = Post(30, text = "Перезалив лекции",likes = Likes(0),views = Views(5))
+
+        assertEquals(30, addedPost.id)
     }
 
 }
