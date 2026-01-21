@@ -1,3 +1,4 @@
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -63,9 +64,12 @@ class WallServiceTest {
 
     @Test
     fun addingComment() {
-        val addedPost = Post(30, text = "Перезалив лекции",likes = Likes(0),views = Views(5))
+        val initialPost = Post(0, text = "Перезалив лекции",likes = Likes(0),views = Views(5))
+        val newPost = WallService.add(initialPost)
+        val commentToCreate = Comment(1,2,"Отличная лекция",12,5)
+        val createdComment = WallService.createComment(postId = newPost.id, comment = commentToCreate)
 
-        assertEquals(30, addedPost.id)
+        assertEquals(commentToCreate,createdComment)
     }
 
 }
