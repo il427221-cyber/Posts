@@ -25,7 +25,7 @@ object WallService {
     //функция добавления комментария
     fun createComment(postId: Int, comment: Comment): Any {
         for (post in posts) {
-            if (post.id != postId) {
+            if (post.id == postId) {
                 comments += comment
                 return comments.last()
             }
